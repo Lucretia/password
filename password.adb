@@ -38,7 +38,7 @@ begin
             then
                Pass (Index) := Current;
 
-               Index := Index + 1;
+               Index := @ + 1;  --  New Ada 2020 feature!
             end if;
          end loop;
 
