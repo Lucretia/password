@@ -15,6 +15,10 @@ $ ./password 20
 Password is: *L=sgPqb?'Ex-GSYja;  # Example use only, I have not used this.
 ```
 
+## Compiler tested
+
+GCC 9.2.0
+
 ## Licence
 
 BSD
