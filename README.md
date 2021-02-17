@@ -12,7 +12,7 @@ $ gnatmake password
 
 ```bash
 $ ./password 20
-Password is: t6HJYV6YKDSDEA6wYk8U  # Example use only, I have not used this.
+Password is: *L=sgPqb?'Ex-GSYja;  # Example use only, I have not used this.
 ```
 
 ## Licence

@@ -5,35 +5,44 @@
 with Ada.Command_Line;
 with Ada.Text_IO;
 with Ada.Numerics.Discrete_Random;
+with Ada.Characters.Latin_1;
 
 procedure Password is
-   type Char_Set is
-     ('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
-      'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-      '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
-      'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
-      'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+   package L1 renames Ada.Characters.Latin_1;
 
-   package Random_Char is new Ada.Numerics.Discrete_Random(Char_Set);
-   use Random_Char;
+   package Random_Char is new Ada.Numerics.Discrete_Random (Character);
 
-   Gen : Generator;
+   Gen : Random_Char.Generator;
 begin
    if Ada.Command_Line.Argument_Count /= 1 then
-      Ada.Text_IO.Put_Line("   Usage: password <length>");
-      Ada.Text_IO.Put_Line("     Creates a random set of characters from the range of [a..zA..Z0..9]");
+      Ada.Text_IO.Put_Line ("   Usage: password <length>");
+      Ada.Text_IO.Put_Line ("     Creates a random set of characters from the range of [a..zA..Z0..9]");
    else
       declare
-         Length : constant Integer := Integer'Value(Ada.Command_Line.Argument(1));
-         Pass   : String(1 .. Length);
+         Current :          Character            := Character'First;
+         Length  : constant Integer              := Integer'Value (Ada.Command_Line.Argument (1));
+         Pass    :          String (1 .. Length) := (others => L1.Space);
+         Index   :          Positive             := Positive'First;
       begin
-         Reset(Gen);
+         Random_Char.Reset (Gen);
 
-         for Index in 1 .. Length loop
-            Pass(Index) := Char_Set'Image(Random(Gen))(2);
+         while Index /= Length loop
+            Current := Random_Char.Random (Gen);
+
+            if Current in   L1.Exclamation         .. L1.Solidus
+                          | '0'                    .. '9'
+                          | L1.Colon               .. L1.Commercial_At
+                          | 'A'                    .. 'Z'
+                          | L1.Left_Square_Bracket .. L1.Low_Line
+                          | L1.LC_A                .. L1.Tilde
+            then
+               Pass (Index) := Current;
+
+               Index := Index + 1;
+            end if;
          end loop;
 
-         Ada.Text_IO.Put_Line("Password is: " & Pass);
+         Ada.Text_IO.Put_Line ("Password is: " & Pass);
       end;
    end if;
 end Password;
