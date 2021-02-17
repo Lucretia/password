@@ -5,7 +5,7 @@ This is a simple random character password generator I wrote years ago because I
 There is no GNAT project file, it's a simple application which can be built with the following commands:
 
 ```bash
-$ gnatmake password
+$ gnatmake -gnatX password
 ```
 
 ## Example
